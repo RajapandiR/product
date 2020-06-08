@@ -45,8 +45,20 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 class Category(models.Model):
 	name = models.CharField(max_length=100, null=True)
 	description = models.CharField(max_length=200, null=True)
-	displayed = models.CharField(max_length=5,default='Yes', null=True)
+	displayed = models.CharField(max_length=5,default='Yes')
 	created_on = models.DateTimeField(auto_now_add=True, null=True)
+
+	def __str__(self):
+		return self.name
+
+class Product(models.Model):
+	image = models.ImageField(upload_to='Image')
+	name = models.CharField(max_length=100, null=True)
+	reference = models.CharField(max_length=100, null=True)
+	category =  models.ForeignKey(Category, on_delete=models.CASCADE,null=True)
+	price = models.IntegerField()
+	quantity = models.IntegerField()
+	status = models.CharField(max_length=6, default='Active')
 
 	def __str__(self):
 		return self.name

@@ -5,3 +5,4 @@ from productapp import models
 
 admin.site.register(models.Profile)
 admin.site.register(models.Category)
+admin.site.register(models.Product)
