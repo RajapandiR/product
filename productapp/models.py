@@ -52,12 +52,22 @@ class Category(models.Model):
 		return self.name
 
 class Product(models.Model):
+	TAXRULE = (
+		('No tax', 'No tax'), 
+		('Tax (9%)', 'Tax (9%)'),
+		('Tax (12%)', 'Tax (12%)'),
+		('Tax (15%)', 'Tax (15%)'),
+		('Tax (18%)', 'Tax (18%)'),
+	)
 	image = models.ImageField(upload_to='Image')
 	name = models.CharField(max_length=100, null=True)
 	reference = models.CharField(max_length=100, null=True)
 	category =  models.ForeignKey(Category, on_delete=models.CASCADE,null=True)
-	price = models.IntegerField()
-	quantity = models.IntegerField()
+	price = models.IntegerField(null=True)
+	taxexcl =  models.IntegerField(null=True)
+	taxincl = models.IntegerField(null=True)
+	taxrule = models.CharField(max_length=100, choices= TAXRULE,null=True)
+	quantity = models.IntegerField(null=True)
 	status = models.CharField(max_length=6, default='Active')
 
 	def __str__(self):
