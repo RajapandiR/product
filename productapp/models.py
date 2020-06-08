@@ -41,3 +41,12 @@ class Profile(AbstractBaseUser, PermissionsMixin):
 
 	def __str__(self):
 		return self.email
+
+class Category(models.Model):
+	name = models.CharField(max_length=100, null=True)
+	description = models.CharField(max_length=200, null=True)
+	displayed = models.CharField(max_length=5,default='Yes', null=True)
+	created_on = models.DateTimeField(auto_now_add=True, null=True)
+
+	def __str__(self):
+		return self.name
