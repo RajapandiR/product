@@ -5,7 +5,7 @@ from productapp import models
 class ProfileSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Profile
-		fields = ['email', 'name', 'password']
+		fields = ['id','firstName','lastName', 'userName','email', 'password','addressLine', 'city', 'zipcode', 'country', 'state']
 		extra_kwargs = {
 		'password': {
 			'write_only': True,

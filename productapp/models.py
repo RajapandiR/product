@@ -7,20 +7,20 @@ from django.conf import settings
 
 class ProfileManager(BaseUserManager):
 
-	def create_user(self, email, name, password=None):
+	def create_user(self, email, userName, password=None):
 		"""Create a User """
 		if not email :
 			raise ValueError('User must have an Email Address')
 
 		email = self.normalize_email(email)
-		user = self.model(email=email ,name=name)
+		user = self.model(email=email ,userName=userName)
 		user.set_password(password)
 		user.save(using=self._db)
 		return user
 
-	def create_superuser(self, email, name, password):
+	def create_superuser(self, email, userName, password):
 
-		user = self.create_user(email, name, password)
+		user = self.create_user(email, userName, password)
 		user.is_superuser = True
 		user.is_staff = True
 		user.save(using=self._db)
@@ -28,13 +28,20 @@ class ProfileManager(BaseUserManager):
 
 class Profile(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(max_length=100, unique= True)
-	name = models.CharField(max_length=100)
+	firstName = models.CharField(max_length=100, null=True)
+	lastName = models.CharField(max_length=100, null=True)
+	userName = models.CharField(max_length=100, null=True)
+	addressLine = models.CharField(max_length=100, null=True)
+	city = models.CharField(max_length=100, null=True)
+	zipcode = models.CharField(max_length=100, null=True)
+	country = models.CharField(max_length=100, null=True)
+	state = models.CharField(max_length=100, null=True)
 	is_active = models.BooleanField(default = True)
 	is_staff = models.BooleanField(default = False)
 
 	objects = ProfileManager()
 	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = ['name']
+	REQUIRED_FIELDS = ['userName']
 	
 	def get_full_name(self):
 		return self.name
