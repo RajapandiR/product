@@ -70,4 +70,23 @@ class ProductApiView(APIView):
 			return Response(
 				serializer.errors,
 				status = status.HTTP_400_BAD_REQUEST
+				)
+
+class OrderApiView(APIView):
+	serializer_class = serializers.OrderSerializer
+	def get(self, request,  format = None):
+		obj = models.Order.objects.all()
+		serializer = serializers.OrderSerializer(obj, many=True)
+		return Response(serializer.data)
+
+	def post(self, request):
+		serializer = self.serializer_class(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			message = f'Successfull'
+			return Response({'message':message})
+		else:
+			return Response(
+				serializer.errors,
+				status = status.HTTP_400_BAD_REQUEST
 				)	

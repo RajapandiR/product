@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.conf import settings
+
+from productapp import models as m
 # Create your models here.
 
 class ProfileManager(BaseUserManager):
@@ -27,10 +29,10 @@ class ProfileManager(BaseUserManager):
 		return user
 
 class Profile(AbstractBaseUser, PermissionsMixin):
+	userName = models.CharField(max_length=100, null=True, unique= True)
 	email = models.EmailField(max_length=100, unique= True)
 	firstName = models.CharField(max_length=100, null=True)
 	lastName = models.CharField(max_length=100, null=True)
-	userName = models.CharField(max_length=100, null=True)
 	addressLine = models.CharField(max_length=100, null=True)
 	city = models.CharField(max_length=100, null=True)
 	zipcode = models.CharField(max_length=100, null=True)
@@ -76,6 +78,18 @@ class Product(models.Model):
 	taxrule = models.CharField(max_length=100, choices= TAXRULE,null=True)
 	quantity = models.IntegerField(null=True)
 	status = models.CharField(max_length=6, default='Active')
+	created_on = models.DateTimeField(auto_now_add=True, null=True)
 
 	def __str__(self):
 		return self.name
+
+class Order(models.Model):
+	customer = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+	total = models.IntegerField(null=True)
+	created_on = models.DateTimeField(auto_now_add=True, null=True)
+
+class Invoice(models.Model):
+	enableInvoice = models.CharField(max_length=100,default = 'Yes', null=True) 
+	invoicePrefix = models.CharField(max_length=100, null=True) 
+	invoiceNo = models.IntegerField(null=True)
+
