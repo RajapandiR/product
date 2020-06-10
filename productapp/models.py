@@ -89,7 +89,7 @@ class Order(models.Model):
 	created_on = models.DateTimeField(auto_now_add=True, null=True)
 
 class Invoice(models.Model):
-	enableInvoice = models.CharField(max_length=100,default = 'Yes', null=True) 
+	enableInvoice = models.CharField(max_length=100,default = 'Yes',) 
 	invoicePrefix = models.CharField(max_length=100, null=True) 
 	invoiceNo = models.IntegerField(null=True)
 

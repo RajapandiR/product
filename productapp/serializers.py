@@ -29,3 +29,8 @@ class OrderSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = models.Order
 		fields = '__all__'
+
+class InvoiceSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = models.Invoice
+		fields = '__all__'

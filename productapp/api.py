@@ -27,7 +27,7 @@ class ProfileApiView(APIView):
 		serializer = self.serializer_class(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			message = f'Successfull'
+			message = f'Create Successfull'
 			return Response({'message':message})
 		else:
 			return Response(
@@ -45,7 +45,7 @@ class CategoryApiView(APIView):
 		serializer = self.serializer_class(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			message = f'Successfull'
+			message = f'Create Successfull'
 			return Response({'message':message})
 		else:
 			return Response(
@@ -64,7 +64,7 @@ class ProductApiView(APIView):
 		serializer = self.serializer_class(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			message = f'Successfull'
+			message = f'Create Successfull'
 			return Response({'message':message})
 		else:
 			return Response(
@@ -83,7 +83,26 @@ class OrderApiView(APIView):
 		serializer = self.serializer_class(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
-			message = f'Successfull'
+			message = f'Create Successfull'
+			return Response({'message':message})
+		else:
+			return Response(
+				serializer.errors,
+				status = status.HTTP_400_BAD_REQUEST
+				)	
+
+class InvoiceApiView(APIView):
+	serializer_class = serializers.InvoiceSerializer
+	def get(self, request,  format = None):
+		obj = models.Invoice.objects.all()
+		serializer = serializers.InvoiceSerializer(obj, many=True)
+		return Response(serializer.data)
+
+	def post(self, request):
+		serializer = self.serializer_class(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			message = f'Create Successfull'
 			return Response({'message':message})
 		else:
 			return Response(
