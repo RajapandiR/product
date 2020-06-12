@@ -89,7 +89,21 @@ class Order(models.Model):
 	created_on = models.DateTimeField(auto_now_add=True, null=True)
 
 class Invoice(models.Model):
+	def increment_invoice_number():
+		last_invoice = Invoice.objects.all().order_by('id').last()
+		if not last_invoice:
+		     return 'XXX0001'
+		invoiceNo = last_invoice.invoiceNo
+		invoice_int = int(invoiceNo.split('XXX')[-1])
+		width = 4
+		new_invoice_int = invoice_int + 1
+		formatted = (width - len(str(new_invoice_int))) * "0" + str(new_invoice_int)
+		new_invoice_no = 'XXX' + str(formatted)
+		return new_invoice_no
 	enableInvoice = models.CharField(max_length=100,default = 'Yes',) 
 	invoicePrefix = models.CharField(max_length=100, null=True) 
-	invoiceNo = models.IntegerField(null=True)
+	invoiceNo = models.CharField(max_length=500, default=increment_invoice_number, null=True, blank=True)
+	footerText = models.CharField(max_length=100, null=True) 
 
+	def __str__(self):
+		return self.invoiceNo
